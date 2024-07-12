@@ -14,7 +14,6 @@ function App() {
   const [num1, setNum1] = useState('');
   const [num2, setNum2] = useState('');
   const [sum, setSum] = useState(null);
-  const [inputValue, setInputValue] = useState('');
   const [darkMode, setDarkMode] = useState(false);
 
   const addChild = () => {
@@ -25,10 +24,6 @@ function App() {
     setSum(Number(num1) + Number(num2));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    alert(`Form submitted with input value: ${inputValue}`);
-  };
 
   const isSumButtonDisabled = num1 === '' || num2 === '';
 
