@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useState } from 'react';
-import './index.css';
+import './App.css';
 
 // Child Component for Dynamic Addition
 function Child({ id }) {
@@ -9,13 +9,13 @@ function Child({ id }) {
 
 function App() {
   const [show, setShow] = useState(true);
-  const [isDisabled, setIsDisabled] = useState(true);
   const [text, setText] = useState('');
   const [children, setChildren] = useState([]);
   const [num1, setNum1] = useState('');
   const [num2, setNum2] = useState('');
   const [sum, setSum] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const [darkMode, setDarkMode] = useState(false);
 
   const addChild = () => {
     setChildren([...children, children.length + 1]);
@@ -30,14 +30,14 @@ function App() {
     alert(`Form submitted with input value: ${inputValue}`);
   };
 
-  const handleInputChange = (event) => {
-    const value = event.target.value;
-    setInputValue(value);
-    setIsDisabled(value === '');
+  const isSumButtonDisabled = num1 === '' || num2 === '';
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
   };
 
   return (
-    <div>
+    <div className={darkMode ? 'dark-mode' : 'light-mode'}>
       {/* Task 1: Display Simple JSX */}
       <section className="section">
         <h2>Simple JSX</h2>
@@ -53,7 +53,8 @@ function App() {
             { id: 1, name: 'John Doe' },
             { id: 2, name: 'Jane Smith' },
             { id: 3, name: 'Michael Johnson' },
-             {id:4, name: 'Jim Jam'}
+            { id:  4,   name: 'Jim Jam'}
+            
           ].map(record => (
             <li key={record.id}>{record.name}</li>
           ))}
@@ -66,23 +67,14 @@ function App() {
         <button onClick={() => setShow(!show)}>
           {show ? 'Hide' : 'Show'} Element
         </button>
-        {show && <div>This is a toggleable element.You can hide me.</div>}
+        {show && <div>This is a toggleable element.</div>}
       </section>
 
       {/* Task 4: Enable/Disable a Button */}
       <section className="section">
-        <h2>Enable/Disable Form Submission</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Type to enable submit button"
-          />
-          <button type="submit" disabled={isDisabled}>Submit</button>
-        </form>
-        <button onClick={() => setIsDisabled(!isDisabled)}>
-          Toggle Submit Button
+        <h2>Enable/Disable Dark/Light Mode</h2>
+        <button onClick={toggleDarkMode}>
+          {darkMode ? 'Enable Light Mode' : 'Enablle Dark Mode'}
         </button>
       </section>
 
@@ -95,7 +87,7 @@ function App() {
           onChange={e => setText(e.target.value)}
           placeholder="Type something"
         />
-        <p>You have written this: {text}</p>
+        <p>Text you have entered:- {text}</p>
       </section>
 
       {/* Task 6: Dynamically Add Child Components */}
@@ -124,7 +116,9 @@ function App() {
           onChange={e => setNum2(e.target.value)}
           placeholder="Enter second number"
         />
-        <button onClick={handleSum}>Calculate Sum</button>
+        <button onClick={handleSum} disabled={isSumButtonDisabled}>
+          Calculate Sum
+        </button>
         {sum !== null && <p>Sum: {sum}</p>}
       </section>
     </div>
